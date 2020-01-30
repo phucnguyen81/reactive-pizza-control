@@ -1,0 +1,12 @@
+# Create fake server to post the form
+
+# Check out the animation code
+
+# Add type for pizzas prices
+
+# Extract logic out of the view (as much as possible)
+On-going
+
+# Fix a bug on Place Order button
+If the pizzas are selected before the user details are filled out then
+the Place Order button might be disabled.

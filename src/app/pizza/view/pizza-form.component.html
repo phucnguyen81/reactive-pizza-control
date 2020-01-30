@@ -1,0 +1,6 @@
+<form (ngSubmit)="onSubmit($event)" [formGroup]="form">
+  <app-customer-details [input]="input" [control]="control">
+  </app-customer-details>
+  <pizza-creator [input]="input" [control]="control"></pizza-creator>
+  <pizza-summary [input]="input" [control]="control"></pizza-summary>
+</form>

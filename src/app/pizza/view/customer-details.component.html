@@ -1,0 +1,59 @@
+<h2>Enter your details</h2>
+<div class="section" [formGroup]="details">
+  <div class="input">
+    <label>Name <span class="required">*</span>
+      <span *ngIf="nameError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="name" type="text" placeholder="John Smith"
+      [formControl]="name" />
+  </div>
+  <div class="input">
+    <label>Email <span class="required">*</span>
+      <span *ngIf="emailError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="email" type="email" placeholder="Enter your email"
+      [formControl]="email" />
+  </div>
+  <div class="input">
+    <label>Confirm <span class="required">*</span>
+      <span *ngIf="confirmError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="confirm" type="email" placeholder="Confirm your email"
+      [formControl]="confirm" />
+  </div>
+</div>
+<div class="section" [formGroup]="details">
+  <div class="input">
+    <label>Address <span class="required">*</span>
+      <span *ngIf="addressError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="address" type="text" placeholder="44 Pizza Street"
+      [formControl]="address" />
+  </div>
+  <div class="input">
+    <label>Postcode <span class="required">*</span>
+      <span *ngIf="postcodeError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="postcode" type="text" placeholder="PI3 3AS"
+      [formControl]="postcode" />
+  </div>
+  <div class="input">
+    <label>Contact Number <span class="required">*</span>
+      <span *ngIf="phoneError as error" class="error">
+        {{ error }}
+      </span>
+    </label>
+    <input name="phone" type="text" placeholder="01234 567 890"
+      [formControl]="phone" />
+  </div>
+</div>

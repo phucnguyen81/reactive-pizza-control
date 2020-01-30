@@ -1,0 +1,80 @@
+# How the current form works
+
+The container component contains the form-group control and high level action that involves the creation, addition, removal,... of pizzas.
+
+The components contain various support views of the container.
+They are presentation components that communicate with the containing parent via @Input and @Output properties.
+
+# How animation works
+
+Animation defines how an element should appear on screen.
+For example, the topping is shown as dropping onto the pizza.
+
+An animation is defined with:
+-   How the element looks at the beginning (with :enter)
+-   How the element looks at the end (with :leave)
+
+# Plan to refactor
+Desired stage:
+A pizza-view structure containing everything that each component needs to render.
+A pizza-control whose output is the pizza-view.
+
+=> Make the pizza-control first and show it with json pipe.
+
+# Refactoring options
+
+First step is to extract the pizza-control.
+
+Two options:
+1. In old code, extract the pizza-control step by step.
+
+2. In new code, create a pizza-control with the logic and view taken
+from the original code.
+
+=> try 1. first
+
+# Add regression tests before refactoring
+Test the entire UI as a blackbox.
+Then the code can be refactored entirely.
+
+# Extract pizza-view-control out of pizza-app.component
+- [x] Create a branch named 'pizza-app-control'
+- [x] Extract the view control out
+- [x] Move the view control up to module's root
+- [x] All components use the view control
+
+# Refer to control objects, not their names
+
+# Add a test to verify that total price changes if toppings are added
+
+# Remove state variables on components
+Turn variables into Subjects and merge then to produce view output.
+
+# Fix change detection on pure view such as pizza-summary
+The pizza-summary does not detect changes to update its UI.
+The reason is that it uses OnPush change detection but
+its input is the singleton view-control.
+
+Hot fix: set its @Input to view-control output.
+
+Solution (later): pass input and control from the view-control
+down to child components separately.
+
+# Make PizzasViewControl a FormArray
+
+# Make PizzaFormViewControl a FormGroup
+
+# Rename PizzaFormViewControl to PizzaAppControl
+
+# Need to keep the [formControl] directive
+The directive is a very convenient binding that allows many events
+(click, blur, change,....) to be forwarded to the form control.
+
+# Simplify the output of validation error messages
+Error messages can be generated from the error object ValidationErrors.
+For example, the minLength validator gives error object:
+{ minlength: { requiredLength: 3, actualLength: 1 } }
+
+# Clean up the main test
+Main changes are searching for element names, not their style classes.
+
