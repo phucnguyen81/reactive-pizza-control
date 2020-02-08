@@ -32,7 +32,8 @@
   </div>
 
   <button
-    type="submit"
+    name="submit-pizza-order"
+    (click)="submit($event)"
     class="pizza-summary__button"
     [disabled]="form.invalid">
     Place order

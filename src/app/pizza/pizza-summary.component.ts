@@ -21,4 +21,9 @@ export class PizzaSummaryComponent {
   get form(): PizzaAppControl { return this.control; }
   get pizzas(): PizzasViewControl { return this.control.pizzas; }
   get prices(): any { return this.pizzas.prices; }
+
+  submit(event: Event): void {
+    event.preventDefault();
+    this.control.createOrder();
+  }
 }

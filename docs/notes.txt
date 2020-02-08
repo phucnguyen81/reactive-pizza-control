@@ -78,3 +78,5 @@ For example, the minLength validator gives error object:
 # Clean up the main test
 Main changes are searching for element names, not their style classes.
 
+# Test the submit form call
+Since there is no server, just test it with the HttpTestingController.

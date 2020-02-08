@@ -1,8 +1,10 @@
-# Create fake server to post the form
+# Turn all outputs (from details and pizzas) to input streams for the pizza-app-control
 
 # Check out the animation code
 
 # Add type for pizzas prices
+
+# Make ContextService out of HttpClient
 
 # Extract logic out of the view (as much as possible)
 On-going

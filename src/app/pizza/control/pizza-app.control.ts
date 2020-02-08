@@ -1,4 +1,5 @@
 import { FormGroup } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { PizzaAppOutput } from './pizza-app.io';
@@ -7,6 +8,7 @@ import { PizzasViewControl } from './pizzas-view.control';
 import { PizzasViewOutput } from './pizzas-view.io';
 
 export class PizzaAppControl extends FormGroup {
+
   readonly details = new CustomerDetailsControl();
 
   readonly pizzas = new PizzasViewControl();
@@ -20,7 +22,7 @@ export class PizzaAppControl extends FormGroup {
     };
   }
 
-  constructor() {
+  constructor(private readonly httpClient: HttpClient) {
     super({});
     this.registerControl('details', this.details);
     this.registerControl('pizzas', this.pizzas);
@@ -34,6 +36,18 @@ export class PizzaAppControl extends FormGroup {
   }
 
   createOrder(): void {
-    console.log(this.value);
+    const order = this.value;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+    this.httpClient.post<string>('/api/new-order/', order, httpOptions)
+      .subscribe(
+        response => console.log(response),
+        error => console.error(error),
+        () => console.log('complete', order),
+      );
   }
+
 }

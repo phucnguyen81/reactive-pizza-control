@@ -1,9 +1,13 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { PizzaAppComponent } from './pizza-app.component';
 import { PizzaAppModule } from './pizza-app.module';
+
 
 const TOPPINGS = [
   'anchovy', 'bacon', 'basil', 'chili', 'mozzarella', 'mushroom',
@@ -15,14 +19,21 @@ const DETAILS_FIELD_NAMES = [
 ];
 
 describe('PizzaAppComponent', () => {
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
         PizzaAppModule,
       ],
     }).compileComponents();
+
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   it('should create the component', () => {
@@ -222,6 +233,40 @@ describe('PizzaAppComponent', () => {
     fixture.detectChanges();
 
     expect(totalPrice.innerText).not.toEqual(initialTotalPrice);
+  });
+
+  it('should be able to submit pizza order', () => {
+    const fixture = TestBed.createComponent(PizzaAppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+
+    const form = compiled.querySelector('form');
+    expect(form).toBeTruthy();
+
+    // fill out customer details form
+    DETAILS_FIELD_NAMES.forEach(name => {
+      const field = form.querySelector(`input[name=${name}]`);
+      expect(field).toBeTruthy();
+      field.value = 'Abcd1234';     // work for all fields?
+      field.dispatchEvent(new Event('input'));
+    });
+    fixture.detectChanges();
+
+    // submit order
+    const submitButton = compiled.querySelector(
+      'button[name=submit-pizza-order]'
+    );
+    expect(submitButton).toBeTruthy();
+    submitButton.click();
+    fixture.detectChanges();
+
+    const req = httpTestingController.expectOne('/api/new-order/');
+    expect(req.request.method).toEqual('POST');
+    // force response
+    req.flush({status: 'ok', orderId: 1});
+
+    // assert that there are no outstanding requests
+    httpTestingController.verify();
   });
 
 });

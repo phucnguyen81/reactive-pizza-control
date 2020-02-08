@@ -1,6 +1,7 @@
 import {
   Component, OnInit, OnDestroy, ChangeDetectionStrategy
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
 
@@ -16,11 +17,13 @@ import { PizzaAppOutput } from './control/pizza-app.io';
 export class PizzaAppComponent implements OnInit, OnDestroy {
   readonly title = 'pizza-creator';
 
-  readonly control = new PizzaAppControl();
+  readonly control = new PizzaAppControl(this.httpClient);
 
   get input(): PizzaAppOutput { return this.control.output; }
 
   private readonly subscription = new Subscription();
+
+  constructor(private readonly httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.subscription.add(this.control.subscribe());
